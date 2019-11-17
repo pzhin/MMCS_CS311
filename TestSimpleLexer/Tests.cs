@@ -43,8 +43,8 @@ namespace TestSimpleLexer
             {
                 var lexems = getLexerOutput(l);
                 Assert.IsTrue(lexems.Count == 1);
-                Assert.IsTrue(lexems.First().Key == Tok.ID);
-                Assert.IsTrue(lexems.First().Value == "id123");
+                Assert.AreEqual(Tok.ID, lexems.First().Key);
+                Assert.AreEqual("id123", lexems.First().Value);
             }
             catch (LexerException e)
             {
@@ -168,7 +168,7 @@ namespace TestSimpleLexer
             Lexer l = new Lexer(inputReader);
             
             var lexems = TestSimpleLexer.getLexerOutput(l);
-            Assert.IsTrue(lexems.Count == 8);
+            Assert.AreEqual(lexems.Count,  8);
             CollectionAssert.AreEqual(new LexemList()
             {
                 {Tok.GT, ">"},
