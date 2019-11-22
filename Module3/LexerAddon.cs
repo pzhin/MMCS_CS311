@@ -4,9 +4,8 @@ using SimpleScanner;
 using ScannerHelper;
 using System.Collections.Generic;
 
-namespace  GeneratedLexer
+namespace GeneratedLexer
 {
-    
     public class LexerAddon
     {
         public Scanner myScanner;
@@ -19,37 +18,75 @@ namespace  GeneratedLexer
         public int sumInt = 0;
         public double sumDouble = 0.0;
         public List<string> idsInComment = new List<string>();
-        
+
 
         public LexerAddon(string programText)
         {
-            
             using (StreamWriter writer = new StreamWriter(new MemoryStream(inputText)))
             {
                 writer.Write(programText);
                 writer.Flush();
             }
-            
+
             MemoryStream inputStream = new MemoryStream(inputText);
-            
+
             myScanner = new Scanner(inputStream);
         }
 
         public void Lex()
         {
-            // ×òîáû âåùåñòâåííûå ÷èñëà ðàñïîçíàâàëèñü è îòîáðàæàëèñü â ôîðìàòå 3.14 (à íå 3,14 êàê â ðóññêîé Culture)
+            // Ð§Ñ‚Ð¾Ð±Ñ‹ Ð²ÐµÑ‰ÐµÑÑ‚Ð²ÐµÐ½Ð½Ñ‹Ðµ Ñ‡Ð¸ÑÐ»Ð° Ñ€Ð°ÑÐ¿Ð¾Ð·Ð½Ð°Ð²Ð°Ð»Ð¸ÑÑŒ Ð¸ Ð¾Ñ‚Ð¾Ð±Ñ€Ð°Ð¶Ð°Ð»Ð¸ÑÑŒ Ð² Ñ„Ð¾Ñ€Ð¼Ð°Ñ‚Ðµ 3.14 (Ð° Ð½Ðµ 3,14 ÐºÐ°Ðº Ð² Ñ€ÑƒÑÑÐºÐ¾Ð¹ Culture)
             System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
             int tok = 0;
-            do {
+            do
+            {
                 tok = myScanner.yylex();
 
-                if (tok == (int)Tok.EOF)
+                switch ((Tok) tok)
                 {
-                    break;
+                    case Tok.ID:
+                        if (minIdLength > myScanner.yyleng)
+                        {
+                            minIdLength = myScanner.yyleng;
+                        }
+
+                        if (maxIdLength < myScanner.yyleng)
+                        {
+                            maxIdLength = myScanner.yyleng;
+                        }
+
+                        avgIdLength = (avgIdLength * idCount + myScanner.yyleng) / (idCount + 1);
+
+                        idCount++;
+                        break;
+
+                    case Tok.INUM:
+                        sumInt += int.Parse(myScanner.yytext);
+                        break;
+
+                    case Tok.RNUM:
+                        sumDouble += double.Parse(myScanner.yytext);
+                        break;
+
+                    case Tok.COMMENT:
+                        Console.Out.WriteLine("DEBUG::{0}", myScanner.yytext);
+//                        var curLine = myScanner.;
+//                        do
+//                        {
+//                            tok = myScanner.yylex();
+//                        } while (myScanner.yyleng);
+
+                        break;
+                    
+                    case Tok.COMMENTED_ID:
+                        idsInComment.Add(myScanner.yytext);
+                        break;
+
+                    case Tok.EOF:
+                        return;
                 }
             } while (true);
         }
     }
 }
-
