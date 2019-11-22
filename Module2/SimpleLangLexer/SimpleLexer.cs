@@ -105,7 +105,8 @@ namespace SimpleLexer
             keywordsMap["and"] = Tok.AND;
             keywordsMap["or"] = Tok.OR;
             keywordsMap["not"] = Tok.NOT;
-        }
+			keywordsMap["for"] = Tok.FOR;
+		}
 
         public string FinishCurrentLine()
         {

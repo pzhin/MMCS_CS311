@@ -39,6 +39,24 @@ namespace SimpleLangParser
             }
         }
 
+		public void For()
+		{
+			l.NextLexem();  // пропуск for
+			Assign();
+			if (l.LexKind == Tok.TO)
+			{
+				SyntaxError("TO expected");
+			}
+			l.NextLexem();  // пропуск to
+			Expr();
+			if (l.LexKind == Tok.DO)
+			{
+				SyntaxError("DO expected");
+			}
+			l.NextLexem();  // пропуск do
+			Statement();
+		}
+
         public void Assign() 
         {
             l.NextLexem();  // пропуск id
@@ -80,8 +98,13 @@ namespace SimpleLangParser
                     {
                         Assign();
                         break;
-                    }
-                default:
+					}
+				case Tok.FOR:
+					{
+						For();
+						break;
+					}
+				default:
                     {
                         SyntaxError("Operator expected");
                         break;

@@ -373,9 +373,12 @@ namespace Lexer
                 if (!char.IsLetter(currentCh))
                 {
                     Error();
-                }
-                
-                while (char.IsLetter(currentCh))
+				}
+
+				this.builder.Append(this.currentCh);
+				NextCh();
+
+				if (char.IsLetter(currentCh))
                 {
                     this.builder.Append(this.currentCh);
                     NextCh();
@@ -389,9 +392,12 @@ namespace Lexer
                 if (!char.IsDigit(currentCh))
                 {
                     Error();
-                }
-                
-                while (char.IsDigit(currentCh))
+				}
+
+				this.builder.Append(this.currentCh);
+				NextCh();
+
+				if (char.IsDigit(currentCh))
                 {
                     this.builder.Append(this.currentCh);
                     NextCh();

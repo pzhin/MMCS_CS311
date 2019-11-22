@@ -12,6 +12,8 @@ namespace SimpleLangParserTest
     {
         static void Main(string[] args)
         {
+
+			Console.WriteLine("asdA");
             string fileContents = @"begin
     a := 2;
     cycle a
@@ -31,7 +33,7 @@ end";
                 p.Progr();
                 if (l.LexKind == Tok.EOF)
                 {
-                    Console.WriteLine("Program successfully recognized");
+                    Console.Error.WriteLine("Program successfully recognized");
                 }
                 else
                 {
@@ -40,11 +42,11 @@ end";
             }
             catch (ParserException e)
             {
-                Console.WriteLine("lexer error: " + e.Message);
+				Console.WriteLine("lexer error: " + e.Message);
             }
             catch (LexerException le)
             {
-                Console.WriteLine("parser error: " + le.Message);
+				Console.Error.WriteLine("parser error: " + le.Message);
             }
         }
     }
