@@ -6,5 +6,7 @@ begin
   begin
     a := c;
     c := 1
-  end
+  end;
+
+  while 2 do c := 3
 end

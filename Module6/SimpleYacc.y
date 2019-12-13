@@ -14,19 +14,20 @@
 			public ExprNode eVal;
 			public StatementNode stVal;
 			public BlockNode blVal;
+			public WhileNode wlVal;
        }
 
 %using ProgramTree;
 
 %namespace SimpleParser
 
-%token BEGIN END CYCLE ASSIGN SEMICOLON
+%token BEGIN END CYCLE ASSIGN SEMICOLON WHILE DO
 %token <iVal> INUM 
 %token <dVal> RNUM 
 %token <sVal> ID
 
 %type <eVal> expr ident 
-%type <stVal> assign statement cycle 
+%type <stVal> assign statement cycle while
 %type <blVal> stlist block
 
 %%
@@ -48,6 +49,7 @@ stlist	: statement
 statement: assign { $$ = $1; }
 		| block   { $$ = $1; }
 		| cycle   { $$ = $1; }
+		| while	  { $$ = $1; }
 	;
 
 ident 	: ID { $$ = new IdNode($1); }	
@@ -65,6 +67,9 @@ block	: BEGIN stlist END { $$ = $2; }
 
 cycle	: CYCLE expr statement { $$ = new CycleNode($2, $3); }
 		;
-	
+
+while	: WHILE expr DO statement { $$ = new WhileNode($2, $4); }
+		;
+
 %%
 

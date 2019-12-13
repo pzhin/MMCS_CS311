@@ -66,6 +66,8 @@ class ScannerHelper
     keywords.Add("begin",(int)Tokens.BEGIN);
     keywords.Add("end",(int)Tokens.END);
     keywords.Add("cycle",(int)Tokens.CYCLE);
+    keywords.Add("while",(int)Tokens.WHILE);
+    keywords.Add("do",(int)Tokens.DO);
   }
   public static int GetIDToken(string s)
   {
